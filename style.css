@@ -196,6 +196,7 @@ ul { list-style: none; }
   margin-bottom: 1.75rem;
   display: flex;
   flex-direction: column;
+   gap:0.5;
 }
 .hero-headline .line {
   display: block;
