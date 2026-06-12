@@ -157,6 +157,7 @@ ul { list-style: none; }
     radial-gradient(ellipse 80% 60% at 60% 40%, rgba(30, 43, 111, 0.6) 0%, transparent 60%),
     radial-gradient(ellipse 60% 80% at 20% 70%, rgba(75, 95, 187, 0.2) 0%, transparent 55%),
     linear-gradient(160deg, #080818 0%, #050505 50%, #0a0508 100%);
+  display: none;
 }
 .hero-overlay {
   position: absolute;
@@ -466,6 +467,7 @@ ul { list-style: none; }
       transparent 1px,
       transparent 40px
     );
+  display: none; /* hidden by default; shown via JS if image fails */
 }
 .project-img-wrap:hover .project-img { transform: scale(1.06); }
 
