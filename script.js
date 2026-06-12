@@ -1,400 +1,251 @@
-/* ============================================================
-   ZOEY TAN — Dynamic Portfolio
-   script.js
-   ============================================================ */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zoey Tan — Interaction & Visual Designer</title>
+  <meta name="description" content="Zoey Tan — Interaction & Visual Designer. Where imagination becomes experience." />
 
-(function () {
-  'use strict';
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500&display=swap" rel="stylesheet" />
 
-  /* ── Helpers ─────────────────────────────────────────── */
-  const qs  = (sel, ctx = document) => ctx.querySelector(sel);
-  const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-  /* ── GSAP plugins ────────────────────────────────────── */
-  gsap.registerPlugin(ScrollTrigger);
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-  /* ── Reduced-motion check ────────────────────────────── */
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  <!-- ========== INTRO OVERLAY ========== -->
+  <div id="intro-overlay">
+    <div id="intro-name">Zoey Tan</div>
+  </div>
 
-  /* ══════════════════════════════════════════════════════
-     00  INTRO ANIMATION
-  ══════════════════════════════════════════════════════ */
-  function runIntro() {
-    const overlay = qs('#intro-overlay');
-    const name    = qs('#intro-name');
+  <!-- ========== NAVIGATION ========== -->
+  <nav id="nav">
+    <div class="nav-logo">ZT</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-    if (prefersReduced) {
-      overlay.style.display = 'none';
-      initAfterIntro();
-      return;
-    }
+  <!-- ========== MOUSE GLOW ========== -->
+  <div id="mouse-glow"></div>
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        overlay.style.pointerEvents = 'none';
-        initAfterIntro();
-      }
-    });
+  <!-- ========== HERO ========== -->
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="hero-img-wrap">
+        <img src="assets/herobanner.png" alt="Hero visual" class="hero-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+        <div class="hero-img-fallback"></div>
+      </div>
+      <div class="hero-overlay"></div>
+    </div>
 
-    tl
-      .to(name, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power2.out'
-      })
-      .to(name, {
-        opacity: 0,
-        y: -20,
-        duration: 0.45,
-        ease: 'power2.in',
-        delay: 0.55
-      })
-      .to(overlay, {
-        opacity: 0,
-        duration: 0.5,
-        ease: 'power2.out'
-      }, '-=0.1');
-  }
+    <div class="hero-content">
+      <p class="hero-eyebrow">Interaction &amp; Visual Designer</p>
+      <h1 class="hero-headline">
+        <span class="line">Where</span>
+        <span class="line"><em>imagination</em></span>
+        <span class="line">becomes experience.</span>
+      </h1>
+      <p class="hero-sub">I create visual and interactive experiences that blend storytelling, atmosphere, and digital expression.</p>
+      <a href="#works" class="btn-primary">Explore My Work</a>
+    </div>
 
-  /* ══════════════════════════════════════════════════════
-     01  HERO ANIMATION  (runs after intro)
-  ══════════════════════════════════════════════════════ */
-  function initAfterIntro() {
-    if (!prefersReduced) {
-      animateHero();
-    }
-    initNav();
-    initMouseGlow();
-    initScrollAnimations();
-    initProjectReveal();
-    initSkillCards();
-    initContactReveal();
-    initHeroParallax();
-  }
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
 
-  function animateHero() {
-    /* Wrap each headline line text for mask reveal */
-    qsa('.hero-headline .line').forEach(line => {
-      const inner = document.createElement('span');
-      inner.innerHTML = line.innerHTML;
-      line.innerHTML = '';
-      line.appendChild(inner);
-    });
+  <!-- ========== ABOUT ========== -->
+  <section id="about" class="section-about">
+    <div class="section-inner">
+      <span class="section-label">00 — About</span>
+      <h2 class="section-title reveal-title">About</h2>
+      <div class="about-body">
+        <p class="reveal-para">I am an Interaction Design student at National Taipei University of Technology, with a background in Object &amp; Jewellery Design. My creative practice moves across graphic design, branding, 3D design, and interaction design.</p>
+        <p class="reveal-para">I see design as a space where images, objects, and digital experiences can carry emotion, memory, and imagination. Through my work, I explore how visual language and interaction can shape meaningful experiences.</p>
+      </div>
+    </div>
+    <div class="about-glow"></div>
+  </section>
 
-    const tl = gsap.timeline({ delay: 0.1 });
+  <!-- ========== DESIGN IDENTITY ========== -->
+  <section id="identity" class="section-identity">
+    <div class="identity-phrases">
+      <div class="identity-phrase" data-index="0">
+        <span class="phrase-num">—</span>
+        <span class="phrase-text">Artist-minded.</span>
+      </div>
+      <div class="identity-phrase" data-index="1">
+        <span class="phrase-num">—</span>
+        <span class="phrase-text">Visually driven.</span>
+      </div>
+      <div class="identity-phrase" data-index="2">
+        <span class="phrase-num">—</span>
+        <span class="phrase-text">Experience-focused.</span>
+      </div>
+    </div>
+    <div class="identity-body">
+      <p>As an artist-minded designer, I am interested in creating work that feels atmospheric, expressive, and immersive. My design process often begins with a visual feeling or narrative idea, then develops into a system, interface, object, or interactive experience.</p>
+      <p>I work between visual storytelling and digital interaction, using design as a way to transform abstract ideas into experiences people can see, feel, and engage with.</p>
+    </div>
+  </section>
 
-    tl
-      .to('.hero-eyebrow', {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        ease: 'power3.out'
-      })
-      .from(qsa('.hero-headline .line > span'), {
-        y: '110%',
-        duration: 0.9,
-        stagger: 0.12,
-        ease: 'power4.out'
-      }, '-=0.4')
-      .to('.hero-sub', {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        ease: 'power3.out'
-      }, '-=0.5')
-      .to('.btn-primary', {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power3.out'
-      }, '-=0.45')
-      .to('.hero-scroll-hint', {
-        opacity: 1,
-        duration: 0.8,
-        ease: 'power2.out'
-      }, '-=0.2')
-      .to('.nav-logo', {
-        opacity: 1,
-        duration: 0.5,
-        ease: 'power2.out'
-      }, '-=0.8')
-      .to(qsa('.nav-links a'), {
-        opacity: 1,
-        stagger: 0.08,
-        duration: 0.45,
-        ease: 'power2.out'
-      }, '-=0.6');
+  <!-- ========== SELECTED WORKS ========== -->
+  <section id="works" class="section-works">
+    <div class="works-header">
+      <span class="section-label">01 — Featured Projects</span>
+    </div>
 
-    /* Hero image slow zoom */
-    gsap.to('.hero-img, .hero-img-fallback', {
-      scale: 1.06,
-      duration: 8,
-      ease: 'none',
-      repeat: -1,
-      yoyo: true
-    });
-  }
+    <!-- Project 01 -->
+    <article class="project" id="project-01">
+      <div class="project-img-wrap">
+        <div class="project-img-clip">
+          <img src="assets/project1.jpg" alt="Harmony Vault" class="project-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+          <div class="project-img-fallback" style="--fallback-color: #1a1a2e;"></div>
+        </div>
+      </div>
+      <div class="project-info">
+        <span class="project-num">01</span>
+        <h3 class="project-title">Harmony Vault</h3>
+        <p class="project-type">UX/UI Design / Website Design</p>
+        <p class="project-desc">A music studio website designed to support instrument learning, musician collaboration, events, examinations, and online product browsing through a rhythmic visual system and user-friendly navigation.</p>
+        <div class="project-meta">
+          <div>
+            <span class="meta-label">Role</span>
+            <span class="meta-value">Information Architecture, Visual Direction, UI Layout Design, Website Experience Planning</span>
+          </div>
+          <div>
+            <span class="meta-label">Tools</span>
+            <span class="meta-value">Figma, Adobe Photoshop, Adobe Illustrator</span>
+          </div>
+        </div>
+        <a href="#" class="btn-ghost">View Project</a>
+      </div>
+    </article>
 
-  /* ══════════════════════════════════════════════════════
-     NAV — scroll state
-  ══════════════════════════════════════════════════════ */
-  function initNav() {
-    const nav = qs('#nav');
-    const threshold = 60;
+    <!-- Project 02 -->
+    <article class="project project-alt" id="project-02">
+      <div class="project-img-wrap">
+        <div class="project-img-clip">
+          <img src="assets/project2.jpg" alt="La Pistacherie" class="project-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+          <div class="project-img-fallback" style="--fallback-color: #0f1f3d;"></div>
+        </div>
+      </div>
+      <div class="project-info">
+        <span class="project-num">02</span>
+        <h3 class="project-title">La Pistacherie</h3>
+        <p class="project-type">UX/UI Design / Website Design</p>
+        <p class="project-desc">A luxury boutique website for Turkish delicacies, designed to highlight pistachio-based products through a refined visual style, warm brand colors, elegant typography, and a smooth browsing experience.</p>
+        <div class="project-meta">
+          <div>
+            <span class="meta-label">Role</span>
+            <span class="meta-value">Information Architecture, Visual Direction, UI Layout Design, Brand Website Experience</span>
+          </div>
+          <div>
+            <span class="meta-label">Tools</span>
+            <span class="meta-value">Illustrator, Photoshop, Figma</span>
+          </div>
+        </div>
+        <a href="#" class="btn-ghost">View Project</a>
+      </div>
+    </article>
 
-    /* Show nav items if intro skipped (reduced motion) */
-    if (prefersReduced) {
-      qs('.nav-logo').style.opacity = 1;
-      qsa('.nav-links a').forEach(a => a.style.opacity = 1);
-    }
+    <!-- Project 03 -->
+    <article class="project" id="project-03">
+      <div class="project-img-wrap">
+        <div class="project-img-clip">
+          <img src="assets/project3.jpg" alt="The Gift Fairy" class="project-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+          <div class="project-img-fallback" style="--fallback-color: #1c1a0a;"></div>
+        </div>
+      </div>
+      <div class="project-info">
+        <span class="project-num">03</span>
+        <h3 class="project-title">The Gift Fairy</h3>
+        <p class="project-type">Branding / Visual Identity / Packaging Design</p>
+        <p class="project-desc">A boutique gift shop branding project built around the idea that every season is a moment for gifting. The visual identity combines a soft pink and warm brown palette, hand-drawn logo details, elegant typography, and thoughtful brand applications to create a whimsical yet refined gifting experience.</p>
+        <div class="project-meta">
+          <div>
+            <span class="meta-label">Role</span>
+            <span class="meta-value">Brand Identity, Logo Design, Visual System, Brand Collateral Design</span>
+          </div>
+          <div>
+            <span class="meta-label">Tools</span>
+            <span class="meta-value">Illustrator, Photoshop, Figma</span>
+          </div>
+        </div>
+        <a href="#" class="btn-ghost">View Project</a>
+      </div>
+    </article>
+  </section>
 
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > threshold);
-    }, { passive: true });
+  <!-- ========== WHAT I DO ========== -->
+  <section id="skills" class="section-skills">
+    <div class="section-inner">
+      <span class="section-label">02 — Disciplines</span>
+      <h2 class="section-title reveal-title">What I Do</h2>
+      <p class="skills-intro reveal-para">I work across different design disciplines, using each medium as a way to shape visual and interactive experiences.</p>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <span class="skill-num">01</span>
+          <h3 class="skill-name">Graphic Design</h3>
+          <p class="skill-desc">Creating visual compositions, layouts, and communication systems.</p>
+        </div>
+        <div class="skill-card">
+          <span class="skill-num">02</span>
+          <h3 class="skill-name">Branding</h3>
+          <p class="skill-desc">Building identity systems that express a clear concept and visual personality.</p>
+        </div>
+        <div class="skill-card">
+          <span class="skill-num">03</span>
+          <h3 class="skill-name">3D Design</h3>
+          <p class="skill-desc">Exploring form, space, material, and atmosphere through digital modeling.</p>
+        </div>
+        <div class="skill-card">
+          <span class="skill-num">04</span>
+          <h3 class="skill-name">Interaction Design</h3>
+          <p class="skill-desc">Designing digital experiences that connect users, stories, and interfaces.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    /* Smooth scroll for nav links */
-    qsa('.nav-links a, a[href^="#"]').forEach(link => {
-      link.addEventListener('click', e => {
-        const href = link.getAttribute('href');
-        if (href && href.startsWith('#')) {
-          e.preventDefault();
-          const target = qs(href);
-          if (target) {
-            target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth' });
-          }
-        }
-      });
-    });
-  }
+  <!-- ========== CONTACT ========== -->
+  <section id="contact" class="section-contact">
+    <div class="contact-glow"></div>
+    <div class="section-inner contact-inner">
+      <span class="section-label">03 — Contact</span>
+      <h2 class="contact-headline">Let's create something<br /><em>meaningful.</em></h2>
+      <p class="contact-sub">If you are interested in creative collaboration, design projects, or visual experiments, feel free to reach out.</p>
+      <div class="contact-links">
+        <a href="mailto:cytan0419@gmail.com" class="contact-link">
+          <span class="contact-link-label">Email</span>
+          <span class="contact-link-value">cytan0419@gmail.com</span>
+        </a>
+        <a href="https://github.com/zoeytan-design" target="_blank" rel="noopener" class="contact-link">
+          <span class="contact-link-label">GitHub</span>
+          <span class="contact-link-value">zoeytan-design</span>
+        </a>
+        <a href="https://www.linkedin.com/in/zoey-t-5549b215a/" target="_blank" rel="noopener" class="contact-link">
+          <span class="contact-link-label">LinkedIn</span>
+          <span class="contact-link-value">Zoey Tan</span>
+        </a>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>© 2026 Zoey Tan. All rights reserved.</p>
+    </footer>
+  </section>
 
-  /* ══════════════════════════════════════════════════════
-     MOUSE GLOW
-  ══════════════════════════════════════════════════════ */
-  function initMouseGlow() {
-    if (prefersReduced || window.innerWidth < 769) return;
-    const glow = qs('#mouse-glow');
-    let mx = window.innerWidth / 2;
-    let my = window.innerHeight / 2;
-    let cx = mx;
-    let cy = my;
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX;
-      my = e.clientY;
-    }, { passive: true });
-
-    function lerp(a, b, t) { return a + (b - a) * t; }
-
-    function tick() {
-      cx = lerp(cx, mx, 0.07);
-      cy = lerp(cy, my, 0.07);
-      glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-
-  /* ══════════════════════════════════════════════════════
-     HERO PARALLAX on scroll
-  ══════════════════════════════════════════════════════ */
-  function initHeroParallax() {
-    if (prefersReduced) return;
-    ScrollTrigger.create({
-      trigger: '#hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true,
-      onUpdate: self => {
-        const p = self.progress;
-        gsap.set('.hero-content', { y: p * 120, opacity: 1 - p * 1.5 });
-        gsap.set('.hero-img-wrap, .hero-img-fallback', { y: p * 60 });
-      }
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════
-     SCROLL ANIMATIONS — About & Identity
-  ══════════════════════════════════════════════════════ */
-  function initScrollAnimations() {
-    if (prefersReduced) return;
-
-    /* Generic title reveals */
-    qsa('.reveal-title').forEach(el => {
-      const inner = document.createElement('div');
-      inner.innerHTML = el.innerHTML;
-      el.innerHTML = '';
-      el.appendChild(inner);
-
-      gsap.from(inner, {
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 85%',
-        },
-        y: '100%',
-        duration: 0.9,
-        ease: 'power4.out'
-      });
-    });
-
-    /* Paragraph reveals */
-    qsa('.reveal-para').forEach((el, i) => {
-      gsap.from(el, {
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 88%',
-        },
-        opacity: 0,
-        y: 28,
-        duration: 0.8,
-        delay: i * 0.1,
-        ease: 'power3.out'
-      });
-    });
-
-    /* Identity phrases — staggered on scroll */
-    qsa('.identity-phrase').forEach((phrase, i) => {
-      const text = qs('.phrase-text', phrase);
-      gsap.to(text, {
-        scrollTrigger: {
-          trigger: phrase,
-          start: 'top 82%',
-        },
-        y: '0%',
-        duration: 0.85,
-        delay: i * 0.08,
-        ease: 'power4.out'
-      });
-    });
-
-    /* Identity body */
-    gsap.from('.identity-body', {
-      scrollTrigger: {
-        trigger: '.identity-body',
-        start: 'top 85%',
-      },
-      opacity: 0,
-      y: 30,
-      duration: 0.9,
-      ease: 'power3.out'
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════
-     PROJECT REVEAL — clip-path mask
-  ══════════════════════════════════════════════════════ */
-  function initProjectReveal() {
-    if (prefersReduced) return;
-
-    qsa('.project').forEach(project => {
-      const clip    = qs('.project-img-clip',  project);
-      const img     = qs('.project-img',       project);
-      const title   = qs('.project-title',     project);
-      const num     = qs('.project-num',       project);
-      const type    = qs('.project-type',      project);
-      const desc    = qs('.project-desc',      project);
-      const meta    = qs('.project-meta',      project);
-      const btn     = qs('.btn-ghost',         project);
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: project,
-          start: 'top 70%',
-        }
-      });
-
-      /* image clip reveal */
-      tl.to(clip, {
-        clipPath: 'inset(0 0% 0 0)',
-        duration: 1.1,
-        ease: 'power3.inOut'
-      });
-
-      /* image scale during reveal */
-      if (img) {
-        tl.from(img, {
-          scale: 1.2,
-          duration: 1.1,
-          ease: 'power3.out'
-        }, '<');
-      }
-
-      /* text elements */
-      tl.from([num, title, type, desc, meta, btn].filter(Boolean), {
-        opacity: 0,
-        y: 22,
-        duration: 0.65,
-        stagger: 0.08,
-        ease: 'power3.out'
-      }, '-=0.5');
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════
-     SKILL CARDS — staggered reveal
-  ══════════════════════════════════════════════════════ */
-  function initSkillCards() {
-    if (prefersReduced) return;
-
-    gsap.from(qsa('.skill-card'), {
-      scrollTrigger: {
-        trigger: '.skills-grid',
-        start: 'top 80%',
-      },
-      opacity: 0,
-      y: 36,
-      duration: 0.75,
-      stagger: 0.1,
-      ease: 'power3.out'
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════
-     CONTACT SECTION
-  ══════════════════════════════════════════════════════ */
-  function initContactReveal() {
-    if (prefersReduced) return;
-
-    gsap.from('.contact-headline', {
-      scrollTrigger: {
-        trigger: '#contact',
-        start: 'top 75%',
-      },
-      opacity: 0,
-      y: 50,
-      duration: 1.1,
-      ease: 'power3.out'
-    });
-
-    gsap.from('.contact-sub', {
-      scrollTrigger: {
-        trigger: '#contact',
-        start: 'top 72%',
-      },
-      opacity: 0,
-      y: 30,
-      duration: 0.9,
-      delay: 0.2,
-      ease: 'power3.out'
-    });
-
-    gsap.from(qsa('.contact-link'), {
-      scrollTrigger: {
-        trigger: '.contact-links',
-        start: 'top 85%',
-      },
-      opacity: 0,
-      y: 20,
-      duration: 0.7,
-      stagger: 0.1,
-      delay: 0.3,
-      ease: 'power3.out'
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════
-     KICK OFF
-  ══════════════════════════════════════════════════════ */
-  runIntro();
-
-})();
+  <script src="script.js"></script>
+</body>
+</html>
